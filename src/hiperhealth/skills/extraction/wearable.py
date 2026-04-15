@@ -126,6 +126,8 @@ class WearableDataFileExtractor(BaseWearableDataExtractor[FileInput]):
           type: list[dict[str, object]]
           description: Return value.
         """
+        if isinstance(file, str):
+            file = Path(file)
         self._validate_or_raise(file)
         return self._process_file(file)
 
@@ -221,6 +223,8 @@ class WearableDataFileExtractor(BaseWearableDataExtractor[FileInput]):
 
     def _get_cache_key(self, file: FileInput) -> str:
         cache_key: str
+        if isinstance(file, str):
+            file = Path(file)
         if isinstance(file, Path):
             cache_key = str(file.resolve())
         else:
@@ -228,6 +232,8 @@ class WearableDataFileExtractor(BaseWearableDataExtractor[FileInput]):
         return cache_key
 
     def _is_json(self, file: FileInput) -> bool:
+        if isinstance(file, str):
+            file = Path(file)
         if isinstance(file, (tempfile.SpooledTemporaryFile, io.BytesIO)):
             try:
                 file.seek(0)
@@ -243,6 +249,8 @@ class WearableDataFileExtractor(BaseWearableDataExtractor[FileInput]):
         )
 
     def _is_csv(self, file: FileInput) -> bool:
+        if isinstance(file, str):
+            file = Path(file)
         if isinstance(file, (tempfile.SpooledTemporaryFile, io.BytesIO)):
             try:
                 file.seek(0)
